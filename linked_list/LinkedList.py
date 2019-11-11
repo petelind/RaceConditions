@@ -58,5 +58,18 @@ class SafeLinkedList(LinkedList):
         super().__init__()
         self.lock = Lock()
 
+    def add_node(self, node: DecoratedNode):
+        with self.lock:
+            if self.Head is None:
+                self.Head = node
+                self.Tail = node
+                self.NodeCount = 1
+                return
+
+            self.Tail.Next = node
+            self.Tail = node
+            self.NodeCount += 1
+        return self.NodeCount
+
 # TODO: Implement Queue (FIFO)
 # TODO: Implement Stack (LIFO)

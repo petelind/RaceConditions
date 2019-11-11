@@ -1,6 +1,6 @@
 from threading import Lock
 
-from linked_list.LinkedList import LinkedList
+from linked_list.LinkedList import LinkedList, SafeLinkedList
 from node.Node import DecoratedNode
 
 
@@ -44,10 +44,16 @@ class UnsafeHashTable:
 
 
 class SafeHashTable(UnsafeHashTable):
-    # TODO: This class is good for reading but bad for writing.
+    # TODO: This class is  bad for writing.
     #  Why is it so, where is the bottleneck? Can we improve it?
     def __init__(self):
         super().__init__()
         self.lock = Lock()
 
 
+class FastSafeHashTable(SafeHashTable):
+    def __init__(self):
+        super().__init__()
+        self.first_bucket = SafeLinkedList()
+        self.second_bucket = SafeLinkedList()
+        self.third_bucket = SafeLinkedList()
